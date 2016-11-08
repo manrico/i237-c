@@ -133,3 +133,6 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#IDEA CLion project files
+.idea/
