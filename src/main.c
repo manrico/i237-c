@@ -4,6 +4,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "uart.h"
+#include "hmi_msg.h"
 
 #define BLINK_DELAY_MS 100
 
@@ -14,11 +15,11 @@ void main (void)
     /* Init error console as stderr in UART3 and print user code info */
     uart3_init();
     stderr = &uart3_out;
-    fprintf(stderr, "Version: %s built on: %s %s\n",
+    fprintf(stderr, PROGRAM_VERSION,
             GIT_DESCR, __DATE__, __TIME__);
-    fprintf(stderr, "avr-libc version: %s\n", __AVR_LIBC_VERSION_STRING__);
+    fprintf(stderr, LIBC_VERSION, __AVR_LIBC_VERSION_STRING__);
     /* End UART3 init and info print */
-   
+
 
     while (1) {
         /* Set pin 3 high to turn LED on */
