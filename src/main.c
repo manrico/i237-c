@@ -23,6 +23,12 @@ void main (void)
 
     print_ascii_tbl(stderr);
 
+    unsigned char table[128];
+    for (unsigned char a = 0; a < sizeof(table); a++) {
+        table[a] = a;
+    }
+    print_for_human(stderr, table, sizeof(table));
+
     while (1) {
         /* Set pin 3 high to turn LED on */
         PORTA |= _BV(PORTA3);
