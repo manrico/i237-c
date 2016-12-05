@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <avr/io.h>
+#include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "uart.h"
 #include "hmi_msg.h"
@@ -16,14 +16,14 @@ void main (void)
     /* Init error console as stderr in UART3 and print version and lib info */
     uart3_init();
     stderr = &uart3_out;
-    fprintf(stderr, MSG_PROGRAM_VERSION, GIT_DESCR, __DATE__, __TIME__);
-    fprintf(stderr, MSG_LIBC_VERSION, __AVR_LIBC_VERSION_STRING__);
+    fprintf_P(stderr, PSTR(MSG_PROGRAM_VERSION), PSTR(GIT_DESCR), PSTR(__DATE__), PSTR(__TIME__));
+    fprintf_P(stderr, PSTR(MSG_LIBC_VERSION), PSTR(__AVR_LIBC_VERSION_STRING__));
     /* End UART3 init and info print */
 
     /* Init UART0 and print out student's name */
     uart0_init();
     stdout = stdin = &uart0_io;
-    fprintf(stdout, MSG_STUD_NAME "\n");
+    fprintf_P(stdout, PSTR(MSG_STUD_NAME "\n"));
     /* END UART0 init*/
 
     print_ascii_tbl(stdout);
@@ -40,11 +40,12 @@ void main (void)
         _delay_ms(BLINK_DELAY_MS);
 
         char input;
-        fprintf(stdout, "\n" MSG_ENTER_MONTH);
+        fprintf_P(stdout, PSTR("\n" MSG_ENTER_MONTH));
         fscanf(stdin, "%c", &input);
         for (int i = 0 ; i < 6 ; i++){
-            if (!strncmp(&input, months[i],1)) {
-                fprintf(stdout, "\n%s", months[i]);
+            if (!strncmp_P(&input,  (PGM_P) pgm_read_word(&months[i]), 1)) {
+                fputc('\n', stdout);
+                fprintf_P(stdout, (PGM_P) pgm_read_word(&months[i]));
             }
         }
 
