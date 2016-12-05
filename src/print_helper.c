@@ -16,6 +16,7 @@ int print_for_human (FILE *stream, const unsigned char *array, const size_t len)
 {
     for (int i = 0; i < (int)len; i++) {
         unsigned char c = array[i];
+
         if (c >= ' ' && c <= '~') {
             if (!fprintf(stream, "%c", c)) {
                 return 0;
