@@ -5,6 +5,7 @@
 #include <util/delay.h>
 #include "uart.h"
 #include "hmi_msg.h"
+#include "print_helper.h"
 
 #define BLINK_DELAY_MS 100
 
@@ -20,6 +21,7 @@ void main (void)
     fprintf(stderr, LIBC_VERSION, __AVR_LIBC_VERSION_STRING__);
     /* End UART3 init and info print */
 
+    print_ascii_tbl(stderr);
 
     while (1) {
         /* Set pin 3 high to turn LED on */
